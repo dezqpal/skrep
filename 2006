@@ -130,7 +130,7 @@ if isWhitelisted then
     print("Primo: Executing " .. MainScript)
     loadstring(game:HttpGet(MainScript))()
 else
-    label.Text = "🖕🖕🖕🖕🖕"
+    label.Text ="AUHLOL"
     label.TextColor3 = Color3.fromRGB(255, 50, 50)
     stroke.Color = Color3.fromRGB(255, 0, 0)
     
