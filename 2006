@@ -76,7 +76,7 @@ stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 local label = Instance.new("TextLabel", frame)
 label.Size = UDim2.new(1, 0, 1, 0)
 label.BackgroundTransparency = 1
-label.Text = "KALMAHE UTOY"
+label.Text = "KALMAHE UTOY!!"
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
 label.TextSize = 22
 label.Font = Enum.Font.GothamBold
@@ -130,7 +130,7 @@ if isWhitelisted then
     print("Primo: Executing " .. MainScript)
     loadstring(game:HttpGet(MainScript))()
 else
-    label.Text = "PAKYU: UNAUTHORIZED"
+    label.Text = "🖕🖕🖕🖕🖕"
     label.TextColor3 = Color3.fromRGB(255, 50, 50)
     stroke.Color = Color3.fromRGB(255, 0, 0)
     
