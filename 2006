@@ -113,7 +113,7 @@ for _, name in pairs(WhitelistedNames) do
 end
 
 if isWhitelisted then
-    label.Text = "ACCESS GRANTED"
+    label.Text = "PALDINGSSS"
     label.TextColor3 = Color3.fromRGB(0, 255, 100)
     stroke.Color = Color3.fromRGB(0, 255, 100)
     
@@ -142,5 +142,5 @@ else
     end
     
     task.wait(2)
-    Player:Kick("ARAYMO PAKAK!")
+    Player:Kick("!ARAYMO PAKAK PANCIT CANTON KWEKKWEK!")
 end
