@@ -2,7 +2,8 @@
 local WhitelistedNames = {
     "PRIMOBNS06",
     "PRIMOBNS21",  
-    "youdeadim",-- Add names here, separate with commas
+    "youdeadim",
+    "kainobns",--Add names here, separate with commas
 }
 
 local MainScript = "https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/obf.lua"
