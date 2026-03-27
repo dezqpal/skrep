@@ -1,49 +1,78 @@
 -- [[ 1. CONFIG ]]
 local WhitelistedNames = {
-    "PRIMOBNS06",
+    "ingalla_09",
     "PRIMOBNS21",  
     "youdeadim",
+    "REBIRTH_PROO",
     "kainobns",
-    "ingalla_09",
     "iggy123982",
-    "PRMBNS21",--Add names here, separate with commas
 }
 
 local MainScript = "https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/obf.lua"
-local WebhookURL = "https://discord.com/api/webhooks/1484235723895865454/n7Ba6vFpLMwkLfXSuWFnU4HJiyAuJmrInQ2SCck4snAiWDonKTvSQcg5JjK3uzJJUjMB" -- Paste your Discord Webhook URL here
+local WebhookURL = "https://discord.com/api/webhooks/1484235723895865454/n7Ba6vFpLMwkLfXSuWFnU4HJiyAuJmrInQ2SCck4snAiWDonKTvSQcg5JjK3uzJJUjMB"
 
--- [[ 2. SERVICES ]]
+-- [[ 2. FORMATTER FUNCTION ]]
+-- Ito ang bahaging nag-aayos ng K, M, B, T, etc.
+local function FormatNumber(value)
+    if not value or value == "N/A" then return "0" end
+    value = tonumber(value) or 0
+    
+    local suffixes = {"", "K", "M", "B", "T", "QA", "QI", "SX", "SP", "O", "N", "D"}
+    local index = 1
+    
+    while value >= 1000 and index < #suffixes do
+        value = value / 1000
+        index = index + 1
+    end
+    
+    -- Format: 1.25B (2 decimal places)
+    return string.format("%.2f%s", value, suffixes[index]):gsub("%.00", "")
+end
+
+-- [[ 3. SERVICES ]]
 local Player = game:GetService("Players").LocalPlayer
-local CoreGui = game:GetService("CoreGui")
-local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
 
--- Cleanup old UI
-if CoreGui:FindFirstChild("PrimoBase") then CoreGui.PrimoBase:Destroy() end
+-- [[ 4. ENHANCED WEBHOOK ]]
+local function SendEnhancedWebhook(status)
+    -- Stats Retrieval
+    local leaderstats = Player:FindFirstChild("leaderstats")
+    local strengthRaw = leaderstats and leaderstats:FindFirstChild("Strength") and leaderstats.Strength.Value or 0
+    local rebirthsRaw = leaderstats and leaderstats:FindFirstChild("Rebirths") and leaderstats.Rebirths.Value or 0
+    
+    -- Other Stats (Muscle Legends check)
+    local agilityRaw = Player:FindFirstChild("Agility") and Player.Agility.Value or (leaderstats and leaderstats:FindFirstChild("Agility") and leaderstats.Agility.Value or 0)
+    local durabilityRaw = Player:FindFirstChild("Durability") and Player.Durability.Value or (leaderstats and leaderstats:FindFirstChild("Durability") and leaderstats.Durability.Value or 0)
 
--- [[ 3. WEBHOOK LOGIC ]]
-local function SendWebhook(status)
+    local executor = (identifyexecutor or getexecutorname or function() return "Unknown" end)()
+    local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
+
     local data = {
         ["embeds"] = {{
-            ["title"] = "PRIMO EXECUTOR LOG",
-            ["description"] = string.format(
-                "**Status:** %s\n**Player:** %s\n**User ID:** %d\n**Game:** %s",
-                status, 
-                Player.Name, 
-                Player.UserId, 
-                game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-            ),
-            ["color"] = (status == "ACCESS GRANTED" and 65280 or 16711680),
+            ["title"] = "📩 PRIMO-HUB WEBHOOK",
+            ["color"] = (status == "ACCESS GRANTED" and 3066993 or 15158332),
+            ["fields"] = {
+                {["name"] = "👤 Display Name", ["value"] = Player.DisplayName, ["inline"] = true},
+                {["name"] = "🔹 Username", ["value"] = Player.Name, ["inline"] = true},
+                {["name"] = "🆔 Player ID", ["value"] = tostring(Player.UserId), ["inline"] = false},
+                {["name"] = "💪 Strength", ["value"] = FormatNumber(strengthRaw), ["inline"] = true},
+                {["name"] = "♻️ Rebirths", ["value"] = FormatNumber(rebirthsRaw), ["inline"] = true},
+                {["name"] = "🛡️ Durability", ["value"] = FormatNumber(durabilityRaw), ["inline"] = true},
+                {["name"] = "⚡ Agility", ["value"] = FormatNumber(agilityRaw), ["inline"] = true},
+                {["name"] = "🎮 Game Name", ["value"] = gameName, ["inline"] = false},
+                {["name"] = "⚙️ Executor", ["value"] = executor, ["inline"] = true}
+            },
+            ["footer"] = {["text"] = "Script executed on: " .. os.date("%Y-%m-%d %H:%M:%S")},
             ["thumbnail"] = {
                 ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. Player.UserId .. "&width=420&height=420&format=png"
-            },
-            ["footer"] = {["text"] = "Primo Security System"}
+            }
         }}
     }
     
     pcall(function()
         local payload = HttpService:JSONEncode(data)
-        local request = http_request or request or HttpPost or (syn and syn.request)
+        local request = http_request or request or (syn and syn.request)
         if request then
             request({
                 Url = WebhookURL,
@@ -55,58 +84,7 @@ local function SendWebhook(status)
     end)
 end
 
--- [[ 4. UI CREATION ]]
-local sg = Instance.new("ScreenGui", CoreGui)
-sg.Name = "PrimoBase"
-sg.DisplayOrder = 999999
-
-local frame = Instance.new("Frame", sg)
-frame.Size = UDim2.new(0, 0, 0, 0)
-frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-frame.BorderSizePixel = 0
-frame.ClipsDescendants = true
-
-local corner = Instance.new("UICorner", frame)
-corner.CornerRadius = UDim.new(0, 10)
-
-local stroke = Instance.new("UIStroke", frame)
-stroke.Thickness = 3
-stroke.Color = Color3.fromRGB(255, 255, 255)
-stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
-local label = Instance.new("TextLabel", frame)
-label.Size = UDim2.new(1, 0, 1, 0)
-label.BackgroundTransparency = 1
-label.Text = "KALMAHE UTOY!!"
-label.TextColor3 = Color3.fromRGB(255, 255, 255)
-label.TextSize = 22
-label.Font = Enum.Font.GothamBold
-label.TextTransparency = 1
-
--- [[ 5. ANIMATIONS ]]
-frame:TweenSize(UDim2.new(0, 300, 0, 140), "Out", "Back", 0.5, true)
-task.wait(0.4)
-TweenService:Create(label, TweenInfo.new(0.5), {TextTransparency = 0}):Play()
-
-task.spawn(function()
-    local h = 0
-    while sg and sg.Parent do
-        h = h + 1/360
-        if h > 1 then h = 0 end
-        local color = Color3.fromHSV(h, 0.7, 1)
-        stroke.Color = color
-        label.TextColor3 = color
-        task.wait()
-    end
-end)
-
--- [[ 6. VERIFICATION LOGIC ]]
-task.wait(2)
-label.Text = "Checking Whitelist..."
-task.wait(1.5)
-
+-- [[ 5. VERIFICATION & EXECUTION ]]
 local isWhitelisted = false
 for _, name in pairs(WhitelistedNames) do
     if Player.Name:lower() == name:lower() then
@@ -116,34 +94,10 @@ for _, name in pairs(WhitelistedNames) do
 end
 
 if isWhitelisted then
-    label.Text = "PALDINGSSS"
-    label.TextColor3 = Color3.fromRGB(0, 255, 100)
-    stroke.Color = Color3.fromRGB(0, 255, 100)
-    
-    SendWebhook("ACCESS GRANTED")
-    
-    task.wait(1.5)
-    
-    TweenService:Create(label, TweenInfo.new(0.5), {TextTransparency = 1}):Play()
-    frame:TweenSize(UDim2.new(0, 0, 0, 0), "In", "Back", 0.5, true)
-    
-    task.wait(0.6)
-    sg:Destroy()
-    
-    print("Primo: Executing " .. MainScript)
+    SendEnhancedWebhook("ACCESS GRANTED")
+    task.wait(0.5)
     loadstring(game:HttpGet(MainScript))()
 else
-    label.Text ="AUHLOL"
-    label.TextColor3 = Color3.fromRGB(255, 50, 50)
-    stroke.Color = Color3.fromRGB(255, 0, 0)
-    
-    SendWebhook("FAILED ATTEMPT (UNAUTHORIZED)")
-    
-    for i = 1, 10 do
-        frame.Position = frame.Position + UDim2.new(0, math.random(-5, 5), 0, math.random(-5, 5))
-        task.wait(0.05)
-    end
-    
-    task.wait(2)
-    Player:Kick("ARAYMO PAKAK PANCIT CANTON KWEKKWEK!")
+    SendEnhancedWebhook("FAILED ATTEMPT")
+    Player:Kick("ARAYMO PAKAK PANCIT CANTON KWEKKWEK.")
 end
