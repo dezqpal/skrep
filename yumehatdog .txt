@@ -3476,7 +3476,7 @@ local function autoEvolveLoop()
     autoEvolveLoopRunning = false
 end
 
-TradeTab:AddLabel("Auto Trade•auto give pets•Auto Buy Pets").TextSize = 20
+PetsTab:AddLabel("Auto Trade & auto give pets & Auto Buy Pets").TextSize = 23
 
 local petDropdown = PetsTab:AddDropdown("Select Pet", function(petName)
     selectedPet = petName
@@ -3497,17 +3497,17 @@ for _, petName in ipairs(petsList) do
     petDropdown:Add(petName)
 end
 
-TradeTab:AddSwitch("Auto Hatch Pet", function(state)
+PetsTab:AddSwitch("Auto Hatch Pet", function(state)
     autoHatch = state
     if state then task.spawn(autoHatchLoop) end
 end)
 
-TradeTab:AddSwitch("Auto Evolve Pet", function(state)
+PetsTab:AddSwitch("Auto Evolve Pet", function(state)
     autoEvolve = state
     if state then task.spawn(autoEvolveLoop) end
 end)
 
-TradeTab:AddLabel("Other").TextSize = 20
+PetsTab:AddLabel("Other").TextSize = 23
 
 local playerDropdown = PetsTab:AddDropdown("Select Player", function(playerName)
     selectedPlayer = Players:FindFirstChild(playerName)
@@ -3522,12 +3522,12 @@ Players.PlayerRemoving:Connect(function(player)
     playerDropdown:Remove(player.Name)
 end)
 
-TradeTab:AddSwitch("Auto Trade", function(state)
+PetsTab:AddSwitch("Auto Trade", function(state)
     autoTrading = state
     if state then task.spawn(autoTradeLoop) end
 end)
 
-TradeTab:AddSwitch("Auto Trade All", function(state)
+PetsTab:AddSwitch("Auto Trade All", function(state)
     autoTradeAll = state
     if state then task.spawn(autoTradeAllLoop) end
 end)
