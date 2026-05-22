@@ -1,0 +1,155 @@
+--// UNO HUB | DEEP RED EDITION (FIXED INTENSITY) \\--
+
+local KEY = "PhxOnTop"
+local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
+
+-- Cleanup
+if CoreGui:FindFirstChild("UnoHub_Red_Fixed") then
+    CoreGui:FindFirstChild("UnoHub_Red_Fixed"):Destroy()
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local UIStroke = Instance.new("UIStroke")
+local Title = Instance.new("TextLabel")
+local TextBox = Instance.new("TextBox")
+local SubmitBtn = Instance.new("TextButton")
+local CornerBtn = Instance.new("UICorner")
+local BtnStroke = Instance.new("UIStroke")
+
+-- UI Setup
+ScreenGui.Name = "UnoHub_Red_Fixed"
+ScreenGui.Parent = CoreGui
+ScreenGui.IgnoreGuiInset = true
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+-- Background: Dark Red Gradient katulad ng sa image
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0) -- Dark Red Base
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -90)
+MainFrame.Size = UDim2.new(0, 300, 0, 180)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true 
+
+local Gradient = Instance.new("UIGradient", MainFrame)
+Gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(60, 0, 0)), -- Med Red
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 0, 0))  -- Dark Red
+})
+Gradient.Rotation = 90
+
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+--// MAIN FRAME BORDER (PULSING RED GLOW) \\--
+UIStroke.Color = Color3.fromRGB(255, 0, 0) -- Bright Red
+UIStroke.Thickness = 1.5
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = MainFrame
+
+-- Dahan-dahang glow effect sa border
+task.spawn(function()
+    while task.wait() do
+        local pulse = 1.2 + math.sin(tick() * 2) * 0.4
+        local alpha = 0.8 + math.sin(tick() * 2) * 0.2
+        UIStroke.Thickness = pulse
+        UIStroke.Color = Color3.new(alpha, 0, 0) -- Pulsing Red Intensity
+    end
+end)
+
+--// TITLE WITH GLOW EFFECT AND LOOPING TYPING \\--
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Font = Enum.Font.GothamBold
+Title.Text = ""
+Title.TextColor3 = Color3.fromRGB(255, 100, 100) -- Light Red
+Title.TextSize = 17
+
+local titleStroke = Instance.new("UIStroke", Title)
+titleStroke.Color = Color3.fromRGB(255, 0, 0)
+titleStroke.Thickness = 1
+titleStroke.Transparency = 0.2
+
+-- Pulsing Glow sa Title Text
+task.spawn(function()
+    while task.wait() do
+        local alpha = 0.6 + math.sin(tick() * 4) * 0.4
+        titleStroke.Transparency = alpha
+    end
+end)
+
+-- Typing Logic
+task.spawn(function()
+    local message = "PHX HUB||KEY SYSTEM"
+    while true do
+        for i = 1, #message do
+            Title.Text = string.sub(message, 1, i)
+            task.wait(0.12)
+        end
+        task.wait(2.5)
+        for i = #message, 0, -1 do
+            Title.Text = string.sub(message, 1, i)
+            task.wait(0.06)
+        end
+        task.wait(0.8)
+    end
+end)
+
+-- TextBox
+TextBox.Parent = MainFrame
+TextBox.BackgroundColor3 = Color3.fromRGB(25, 5, 5) -- Napaka-dark na red
+TextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0, 35)
+TextBox.Font = Enum.Font.Code
+TextBox.PlaceholderText = "Enter Key..."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 200, 200)
+TextBox.TextSize = 14
+Instance.new("UICorner", TextBox).CornerRadius = UDim.new(0, 4)
+local boxStroke = Instance.new("UIStroke", TextBox)
+boxStroke.Color = Color3.fromRGB(60, 20, 20) -- Dull Red border
+
+--// SUBMIT BUTTON (SIMPLE RED BORDER) \\--
+SubmitBtn.Parent = MainFrame
+SubmitBtn.BackgroundColor3 = Color3.fromRGB(30, 10, 10)
+SubmitBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
+SubmitBtn.Size = UDim2.new(0.8, 0, 0, 40)
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.Text = "SUBMIT"
+SubmitBtn.TextColor3 = Color3.fromRGB(255, 200, 200)
+SubmitBtn.TextSize = 14
+Instance.new("UICorner", SubmitBtn).CornerRadius = UDim.new(0, 4)
+
+BtnStroke.Parent = SubmitBtn
+BtnStroke.Thickness = 1.2
+BtnStroke.Color = Color3.fromRGB(150, 0, 0) -- Dim Red para hindi "over"
+
+-- Logic
+SubmitBtn.MouseButton1Click:Connect(function()
+    if TextBox.Text == KEY then
+        BtnStroke.Color = Color3.fromRGB(255, 0, 0)
+        SubmitBtn.Text = "ACCESS GRANTED"
+        task.wait(0.5)
+        ScreenGui:Destroy()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/Prmskrep/refs/heads/main/UnObns.lua"))()
+    else
+        SubmitBtn.Text = "INVALID"
+        BtnStroke.Color = Color3.fromRGB(255, 255, 255) -- White on error
+        task.wait(1)
+        SubmitBtn.Text = "SUBMIT"
+        BtnStroke.Color = Color3.fromRGB(150, 0, 0)
+    end
+end)
+
+-- Subtle Hover
+SubmitBtn.MouseEnter:Connect(function()
+    TweenService:Create(BtnStroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(255, 0, 0)}):Play()
+end)
+SubmitBtn.MouseLeave:Connect(function()
+    TweenService:Create(BtnStroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(150, 0, 0)}):Play()
+end)
