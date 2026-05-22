@@ -11,7 +11,7 @@
         local muscleEvent = Player:WaitForChild("muscleEvent")
         local display = Player.DisplayName
         
-        local window = library:AddWindow("PHX•MICO||CLAN SCRIPT| HAVE A GOOD DAY - "..display, {
+        local window = library:AddWindow("PHX•MICO||CLAN SCRIPT| WELCOME - "..display, {
 	title_bar = {
     Color3.fromRGB(80, 0, 80),     -- White
     Color3.fromRGB(150, 0, 50),   -- Light Gray
