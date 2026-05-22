@@ -136,7 +136,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
         SubmitBtn.Text = "ACCESS GRANTED"
         task.wait(0.5)
         ScreenGui:Destroy()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/Prmskrep/refs/heads/main/UnObns.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/PHX%20obfuscated"))()
     else
         SubmitBtn.Text = "INVALID"
         BtnStroke.Color = Color3.fromRGB(255, 255, 255) -- White on error
