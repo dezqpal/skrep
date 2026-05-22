@@ -2696,6 +2696,8 @@ main_color = Color3.fromRGB(0, 0, 0), -- Main Color for some Elements like Parti
         
         Credits:AddLabel("FOLLOW ME ON TIKTOK")
         Credits:AddLabel("Made by: Prm")
+        Credits:AddLabel("Made Script For PHX Clan")
+        
         
         
         local wLabel = Credits:AddLabel("PHX CLAN ON TOP")
