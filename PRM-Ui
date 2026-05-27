@@ -189,7 +189,7 @@ function Update:Window(patchText)
     title.Position = UDim2.new(0, 15, 0.5, 0)
     title.AnchorPoint = Vector2.new(0, 0.5)
     title.Font = Enum.Font.GothamBold
-    title.Text = "LUNORA HUB |"
+    title.Text = "PRM HUB |"
     title.TextSize = 15
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.TextXAlignment = Enum.TextXAlignment.Left
