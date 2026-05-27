@@ -216,7 +216,7 @@ function Update:Window(patchText)
     hideBtn.Position = UDim2.new(1, -10, 0.5, 0)
     hideBtn.Size = UDim2.new(0, 25, 0, 25)
     hideBtn.BackgroundTransparency = 1
-    hideBtn.Image = 'https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=83731725578821'
+    hideBtn.Image = 'https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=119977046931819'
     hideBtn.ImageColor3 = Color3.fromRGB(245, 245, 245)
     local hideCorner = Instance.new("UICorner")
     hideCorner.CornerRadius = UDim.new(0, 3)
