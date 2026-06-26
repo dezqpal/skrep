@@ -47,8 +47,8 @@ end
 
 if isWhitelisted then
     sendLog("PASOK")
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/Primo/refs/heads/main/keySystem.lua "))() 
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/FJS.HuB "))() 
 else
     sendLog("NAGTANGKA")
-    player:Kick("TANGINANG TOH GUSTO LAHAT LIBRE UHOLOL")
+    player:Kick("🫵SaNaOl BaLiW🖕")
 end
