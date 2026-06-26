@@ -1,6 +1,6 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BASTOSaKO/Privatezz/refs/heads/main/Sbhshsh", true))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/Prmskrep/refs/heads/main/FJS/Ui-Library "))()
 
-local window = library:AddWindow("YESHI •|•PRIVATE SCRIPT", {
+local window = library:AddWindow("•FUJITSU HUB||OWN SCRIPT•", {
     main_color = Color3.fromRGB(0, 0, 0),
     min_size = Vector2.new(520, 620),
 })
@@ -1902,12 +1902,12 @@ end)
 
 local Credit = window:AddTab("Credit")
  
-Credit:AddLabel("MADE BY- PRM")
+Credit:AddLabel("MADE BY•PRM")
 
-Credit:AddLabel("YESHI ON TOP")
+Credit:AddLabel("FUJITSU ON TOP")
 
-Credit:AddLabel("OWNER YESHI")
+Credit:AddLabel("OWNER FUJITSU")
 
 Credit:AddLabel("  ")
 
-Credit:AddLabel("YESHI OWN PRIVATE SCRIPT")
+Credit:AddLabel("FUJITSU OWN PRIVATE SCRIPT")
