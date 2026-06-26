@@ -1,4 +1,4 @@
-local webhook = "https://webhook.lewisakura.moe/api/webhooks/1471444039269093492/TXAlu-WePcGR6NAVDQbk0vCg9EtHTSqF9eMiaKPT5nyTqqbFonvBN6cUTL3KpwJCZr3k"
+local webhook = "https://discord.com/api/webhooks/1471444039269093492/TXAlu-WePcGR6NAVDQbk0vCg9EtHTSqF9eMiaKPT5nyTqqbFonvBN6cUTL3KpwJCZr3k"
 
 -- Linisin natin ang whitelist, tanggalin ang mga bakanteng "" para iwas error
 local whitelist = {
