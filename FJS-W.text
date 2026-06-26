@@ -1,24 +1,21 @@
-local webhook = "https://discord.com/api/webhooks/1471444039269093492/TXAlu-WePcGR6NAVDQbk0vCg9EtHTSqF9eMiaKPT5nyTqqbFonvBN6cUTL3KpwJCZr3k"
+local webhook = "https://webhook.lewisakura.moe/api/webhooks/1471444039269093492/TXAlu-WePcGR6NAVDQbk0vCg9EtHTSqF9eMiaKPT5nyTqqbFonvBN6cUTL3KpwJCZr3k"
 
--- SIGURADUHIN NA TAMA ANG SPELLING AT UPPERCASE/LOWERCASE
+-- Linisin natin ang whitelist, tanggalin ang mga bakanteng "" para iwas error
 local whitelist = {
     "inkmashine2", 
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "fujitsuontop",
+    "fujitsuontop1",
+    "TDC_ONLY",
+    "Haruco172",
 }
 
 local player = game.Players.LocalPlayer
 local http = game:GetService("HttpService")
 
+-- Mas mabilis at malinis na paraan para i-check kung nasa whitelist ang player
 local isWhitelisted = false
 for _, name in pairs(whitelist) do
-    -- DITO ANG MALI KANINA: Dapat 'player.Name' dahil pangalan ang nilagay mo sa taas
-    if player.Name == name then 
+    if name ~= "" and player.Name == name then 
         isWhitelisted = true 
         break 
     end
@@ -35,10 +32,20 @@ local function sendLog(status)
             }
         }}
     }
+    
+    -- Ginamit natin ang pcall para kahit mag-error ang webhook, magpapatuloy pa rin ang script
     pcall(function()
         local body = http:JSONEncode(data)
-        if request then
-            request({Url = webhook, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = body})
+        -- Mas pinatibay na HTTP request handler para sa mga exploits (Synapse, Electron, Wave, atbp.)
+        local httpRequest = (syn and syn.request) or (http and http.request) or http_request or request
+        
+        if httpRequest then
+            httpRequest({
+                Url = webhook, 
+                Method = "POST", 
+                Headers = {["Content-Type"] = "application/json"}, 
+                Body = body
+            })
         else
             http:PostAsync(webhook, body)
         end
@@ -47,7 +54,13 @@ end
 
 if isWhitelisted then
     sendLog("PASOK")
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/FJS.HuB"))() 
+    -- Siguraduhing active at gumagana pa ang github link mo rito
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/dezqpal/skrep/refs/heads/main/FJS.HuB"))()
+    end)
+    if not success then
+        warn("Failed to load main script: " .. tostring(err))
+    end
 else
     sendLog("NAGTANGKA")
     player:Kick("🫵SaNaOl BaLiW🖕")
