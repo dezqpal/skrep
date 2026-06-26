@@ -7,6 +7,7 @@ local whitelist = {
     "fujitsuontop1",
     "TDC_ONLY",
     "Haruco172",
+    "Fongwasgaming",
 }
 
 local player = game.Players.LocalPlayer
