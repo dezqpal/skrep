@@ -1911,3 +1911,52 @@ Credit:AddLabel("OWNER FUJITSU")
 Credit:AddLabel("  ")
 
 Credit:AddLabel("FUJITSU OWN PRIVATE SCRIPT")
+
+--// ANTI AFK
+local VirtualUser = game:GetService("VirtualUser")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+LocalPlayer.Idled:Connect(function()
+    VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    task.wait(1)
+    VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+end)
+
+--// TIMER UI (TOP LANDSCAPE)
+local ScreenGui = Instance.new("ScreenGui")
+local TimerLabel = Instance.new("TextLabel")
+
+ScreenGui.Name = "AntiAFKTimer"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.CoreGui
+
+TimerLabel.Parent = ScreenGui
+TimerLabel.Size = UDim2.new(0, 200, 0, 15)
+TimerLabel.Position = UDim2.new(0.5, -100, 0, 0)
+TimerLabel.BackgroundColor3 = Color3.fromRGB(20,20,20)
+TimerLabel.BackgroundTransparency = 0.2
+TimerLabel.TextColor3 = Color3.fromRGB(255,255,255)
+TimerLabel.Font = Enum.Font.GothamBold
+TimerLabel.TextScaled = true
+TimerLabel.BorderSizePixel = 0
+TimerLabel.Text = "Anti AFK: 00:00"
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0,10)
+UICorner.Parent = TimerLabel
+
+--// TIMER UPDATE
+task.spawn(function()
+    local seconds = 0
+
+    while true do
+        task.wait(1)
+        seconds += 1
+
+        local mins = math.floor(seconds / 60)
+        local secs = seconds % 60
+
+        TimerLabel.Text = string.format("Anti AFK: %02d:%02d", mins, secs)
+    end
+end)
